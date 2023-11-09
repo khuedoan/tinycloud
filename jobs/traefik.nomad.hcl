@@ -3,6 +3,7 @@ job "traefik" {
     task "traefik" {
       driver = "docker"
       template {
+        destination = "local/traefik.yaml"
         data = yamlencode({
           accessLog = {}
           entryPoints = {
@@ -15,15 +16,48 @@ job "traefik" {
           }
           providers = {
             nomad = {}
+            file = {
+              directory = "/etc/traefik/conf.d"
+            }
           }
         })
-        destination = "local/traefik.yaml"
+      }
+      template {
+        destination = "local/conf.d/static.yaml"
+        data        = <<EOH
+http:
+  services:
+    nomad:
+      loadBalancer:
+        servers:
+          - url: "http://localhost:4646"
+  middlewares:
+    private:
+      ipWhiteList:
+        sourceRange:
+          - 127.0.0.1/32
+          {{ with nomadVar "nomad/jobs/traefik/know_hosts" }}
+          {{ range .Values }}
+          - {{ . }}
+          {{end}}
+          {{end}}
+  routers:
+    nomad:
+      rule: HostRegexp(`nomad.{domain:.+}`)
+      middlewares: private@file
+      service: nomad
+    traefik:
+      rule: HostRegexp(`traefik.{domain:.+}`)
+      middlewares: private@file
+      service: api@internal
+EOH
       }
       config {
         image        = "traefik:v2.10"
         network_mode = "host"
         volumes = [
           "local/traefik.yaml:/etc/traefik/traefik.yaml",
+          "local/conf.d:/etc/traefik/conf.d",
         ]
       }
       resources {
@@ -35,25 +69,6 @@ job "traefik" {
       port "http" {
         static = 80
       }
-    }
-    service {
-      name     = "traefik"
-      provider = "nomad"
-      port     = "http"
-      tags = [
-        join(", ", [
-          "traefik.http.middlewares.private.ipwhitelist.sourcerange=127.0.0.1/32",
-          # In Yggdrasil, an IPv6 address is tied to the encryption keypair, so any keypair
-          # changes alter the IPv6 address. This allows me to set up a whitelist that only
-          # accepts connections from known Yggdrasil IPv6 addresses, like computer or phone.
-          # TODO move this to Nomad Variables
-          "201:3809:1f96:2c9b:e50a:4ca9:ae6:a593/128", # Khue's desktop
-          "201:70eb:37ff:be68:cdc8:28c4:7eea:36d3/128", # Khue's phone
-        ]),
-        "traefik.http.routers.traefik.rule=HostRegexp(`traefik.{domain:.+}`)",
-        "traefik.http.routers.traefik.middlewares=private@nomad",
-        "traefik.http.routers.traefik.service=api@internal",
-      ]
     }
   }
 }

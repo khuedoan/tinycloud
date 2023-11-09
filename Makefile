@@ -1,5 +1,5 @@
 .POSIX:
-.PHONY: default test update deploy
+.PHONY: default test update deploy fmt
 
 default: test
 
@@ -18,3 +18,6 @@ deploy:
 	nomad run -detach jobs/blog.nomad.hcl
 	nomad run -detach jobs/speedtest.nomad.hcl
 	nomad var put -force @variables/traefik.nv.hcl
+
+fmt:
+	nomad fmt -recursive
