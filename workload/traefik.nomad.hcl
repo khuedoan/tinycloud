@@ -4,17 +4,14 @@ job "traefik" {
       driver = "docker"
       template {
         data = yamlencode({
+          accessLog = {}
           entryPoints = {
             http = {
               address = ":80"
             }
-            traefik = {
-              address = ":8081"
-            }
           }
           api = {
             dashboard = true
-            insecure  = true
           }
           providers = {
             nomad = {}
@@ -38,9 +35,15 @@ job "traefik" {
       port "http" {
         static = 80
       }
-      port "api" {
-        static = 8081
-      }
+    }
+    service {
+      name     = "traefik"
+      provider = "nomad"
+      port     = "http"
+      tags = [
+        "traefik.http.routers.traefik.rule=HostRegexp(`traefik.{domain:.+}`)",
+        "traefik.http.routers.traefik.service=api@internal",
+      ]
     }
   }
 }

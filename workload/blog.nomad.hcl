@@ -22,8 +22,7 @@ job "blog" {
       provider = "nomad"
       port     = "http"
       tags = [
-        "traefik.enable=true",
-        "traefik.http.routers.http.rule=HostRegexp(`{domain:.+}`, `blog.{domain:.+}`)",
+        "traefik.http.routers.blog.rule=HostRegexp(`blog.{domain:.+}`)",
       ]
     }
   }
