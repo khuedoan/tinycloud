@@ -14,7 +14,7 @@ job "traefik" {
           }
           api = {
             dashboard = true
-            insecure = true
+            insecure  = true
           }
           providers = {
             nomad = {}
@@ -23,7 +23,7 @@ job "traefik" {
         destination = "local/traefik.yaml"
       }
       config {
-        image        = "traefik:v3.0"
+        image        = "traefik:v2.10"
         network_mode = "host"
         volumes = [
           "local/traefik.yaml:/etc/traefik/traefik.yaml",

@@ -23,7 +23,7 @@ job "blog" {
       port     = "http"
       tags = [
         "traefik.enable=true",
-        "traefik.http.routers.http.rule=Path(`/blog`)",
+        "traefik.http.routers.http.rule=HostRegexp(`{domain:.+}`, `blog.{domain:.+}`)",
       ]
     }
   }
