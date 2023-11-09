@@ -74,6 +74,17 @@
         };
       };
     };
+    yggdrasil = {
+      enable = true;
+      persistentKeys = true;
+      settings = {
+        Peers = [
+          # https://publicpeers.neilalexander.dev
+          "tcp://sin.yuetau.net:6642"
+          "tcp://mima.localghost.org:1996"
+        ];
+      };
+    };
   };
 
   users.users = {
