@@ -16,7 +16,12 @@
     in
     {
       allowedTCPPorts = [
-        4646
+        4646 # Nomad HTTP API
+        4647 # Nomad RPC
+        4648 # Nomad Serf WAN
+        80 # HTTP
+        443 # HTTPS
+        8081 # Traefik API
       ];
       allowedTCPPortRanges = [
         nomadDynamicPortRange
