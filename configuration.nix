@@ -11,9 +11,18 @@
 
   networking = {
     networkmanager.enable = true;
-    firewall = {
+    firewall = let
+      nomadDynamicPortRange = { from = 20000; to = 32000; };
+    in
+    {
       allowedTCPPorts = [
         4646
+      ];
+      allowedTCPPortRanges = [
+        nomadDynamicPortRange
+      ];
+      allowedUDPPortRanges = [
+        nomadDynamicPortRange
       ];
     };
   };
