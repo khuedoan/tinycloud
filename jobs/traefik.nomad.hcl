@@ -9,6 +9,20 @@ job "traefik" {
           entryPoints = {
             http = {
               address = ":80"
+              http = {
+                redirections = {
+                  entryPoint = {
+                    to = "https"
+                    scheme = "https"
+                  }
+                }
+              }
+            }
+            https = {
+              address = ":443"
+              http = {
+                tls = {}
+              }
             }
           }
           api = {
@@ -68,6 +82,9 @@ EOH
     network {
       port "http" {
         static = 80
+      }
+      port "https" {
+        static = 443
       }
     }
   }
