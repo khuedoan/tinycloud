@@ -20,9 +20,7 @@
     };
     forwardPorts = [
       { from = "host"; host.port = 4646; guest.port = 4646; }
-      { from = "host"; host.port = 8080; guest.port = 80; }
       { from = "host"; host.port = 8443; guest.port = 443; }
-      { from = "host"; host.port = 8081; guest.port = 8081; }
     ];
   };
 
@@ -30,4 +28,5 @@
     password = "testvm";
   };
   services.getty.autologinUser = "admin";
+  security.sudo.wheelNeedsPassword = false;
 }
