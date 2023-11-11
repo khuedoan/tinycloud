@@ -11,7 +11,7 @@
 
   virtualisation = {
     cores = 2;
-    memorySize = 4096;
+    memorySize = 8192;
     diskImage = null;
     qemu = {
       options = [

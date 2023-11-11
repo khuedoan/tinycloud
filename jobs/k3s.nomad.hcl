@@ -1,10 +1,10 @@
 job "k3s" {
   group "k3s" {
-    count = 2
+    count = 1
     task "server" {
       driver = "qemu"
       config {
-        image_path = "local/Fedora-Server-KVM-39-1.5.x86_64.qcow2"
+        image_path  = "local/Fedora-Server-KVM-39-1.5.x86_64.qcow2"
         guest_agent = true
       }
       artifact {
@@ -16,7 +16,7 @@ job "k3s" {
       }
     }
     update {
-      healthy_deadline = "1h"
+      healthy_deadline  = "1h"
       progress_deadline = 0
     }
   }

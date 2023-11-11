@@ -12,7 +12,7 @@ job "traefik" {
               http = {
                 redirections = {
                   entryPoint = {
-                    to = "https"
+                    to     = "https"
                     scheme = "https"
                   }
                 }
