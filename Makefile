@@ -1,5 +1,5 @@
 .POSIX:
-.PHONY: default test update deploy fmt
+.PHONY: default test update deploy fmt clean
 
 default: test
 
@@ -23,3 +23,6 @@ deploy:
 
 fmt:
 	nomad fmt -recursive
+
+clean:
+	rm testvm.qcow2

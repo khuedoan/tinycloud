@@ -12,7 +12,7 @@
   virtualisation = {
     cores = 2;
     memorySize = 8192;
-    diskImage = null;
+    diskSize = 256 * 1024;
     qemu = {
       options = [
         "-nographic"
