@@ -49,7 +49,7 @@
     openssh.enable = true;
     nomad = {
       enable = true;
-      package = pkgs.nomad_1_6;
+      package = (import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/85f1ba3e5167.tar.gz") {}).nomad_1_6;
       extraPackages = with pkgs; [
         qemu_full
       ];
