@@ -1,4 +1,4 @@
-path = "nomad/jobs/traefik/know_hosts"
+path = "nomad/jobs/traefik/known_hosts"
 
 items {
   # In Yggdrasil, an IPv6 address is tied to the encryption keypair, so any keypair

@@ -38,33 +38,7 @@ job "traefik" {
       }
       template {
         destination = "local/conf.d/static.yaml"
-        data        = <<EOH
-http:
-  services:
-    nomad:
-      loadBalancer:
-        servers:
-          - url: "http://localhost:4646"
-  middlewares:
-    private:
-      ipWhiteList:
-        sourceRange:
-          - 127.0.0.1/32
-          {{ with nomadVar "nomad/jobs/traefik/know_hosts" }}
-          {{ range .Values }}
-          - {{ . }}
-          {{end}}
-          {{end}}
-  routers:
-    nomad:
-      rule: HostRegexp(`nomad.{domain:.+}`)
-      middlewares: private@file
-      service: nomad
-    traefik:
-      rule: HostRegexp(`traefik.{domain:.+}`)
-      middlewares: private@file
-      service: api@internal
-EOH
+        data        = file("./static.yaml")
       }
       config {
         image        = "traefik:v2.10"

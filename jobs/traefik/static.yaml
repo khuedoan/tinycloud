@@ -1,0 +1,25 @@
+http:
+  services:
+    nomad:
+      loadBalancer:
+        servers:
+          - url: "http://localhost:4646"
+  middlewares:
+    private:
+      ipWhiteList:
+        sourceRange:
+          - 127.0.0.1/32
+          {{ with nomadVar "nomad/jobs/traefik/known_hosts" }}
+          {{ range .Values }}
+          - {{ . }}
+          {{end}}
+          {{end}}
+  routers:
+    nomad:
+      rule: HostRegexp(`nomad.{domain:.+}`)
+      middlewares: private@file
+      service: nomad
+    traefik:
+      rule: HostRegexp(`traefik.{domain:.+}`)
+      middlewares: private@file
+      service: api@internal
