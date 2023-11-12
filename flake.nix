@@ -15,5 +15,12 @@
         ];
       };
     };
+    devShells = nixpkgs.lib.genAttrs ["x86_64-linux"] (system: {
+      default = with nixpkgs.legacyPackages.${system}; mkShell {
+        packages = [
+          nomad
+        ];
+      };
+    });
   };
 }
