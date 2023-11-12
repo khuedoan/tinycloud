@@ -1,7 +1,13 @@
 .POSIX:
-.PHONY: default test update deploy fmt clean
+.PHONY: default switch test update deploy fmt clean
 
 default: test
+
+switch:
+	nixos-rebuild \
+		--impure \
+		--flake '.#' \
+		switch
 
 test:
 	nixos-rebuild \
