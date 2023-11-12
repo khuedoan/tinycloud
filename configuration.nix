@@ -16,7 +16,6 @@
     in
     {
       allowedTCPPorts = [
-        4646 # Nomad HTTP API
         80 # HTTP
         443 # HTTPS
       ];
@@ -65,6 +64,9 @@
           artifact = {
             disable_filesystem_isolation = true;
           };
+        };
+        acl = {
+          enabled = true;
         };
       };
     };
