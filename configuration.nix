@@ -65,9 +65,6 @@
             disable_filesystem_isolation = true;
           };
         };
-        acl = {
-          enabled = true;
-        };
       };
     };
     yggdrasil = {

@@ -20,8 +20,6 @@ Still experimetal for now, so it may not work:
 git clone https://github.com/khuedoan/tinycloud
 cd tinycloud
 sudo make switch
-nomad acl bootstrap # Copy Secret ID
-NOMAD_TOKEN=$SECRET_ID
 make deploy
 ```
 
