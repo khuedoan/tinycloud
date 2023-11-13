@@ -9,11 +9,15 @@ http:
       ipWhiteList:
         sourceRange:
           - 127.0.0.1/32
-          {{ with nomadVar "nomad/jobs/traefik/known_hosts" }}
-          {{ range .Values }}
+          # https://datatracker.ietf.org/doc/html/rfc1918#section-3
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+          {{- with nomadVar "nomad/jobs/traefik/known_hosts" }}
+          {{- range .Values }}
           - {{ . }}
-          {{end}}
-          {{end}}
+          {{- end}}
+          {{- end}}
   routers:
     nomad:
       rule: HostRegexp(`nomad.{domain:.+}`)
