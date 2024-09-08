@@ -1,11 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    # TODO find a way to generate hardware configuration?
-    /etc/nixos/hardware-configuration.nix
-  ];
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -14,19 +9,11 @@
     nftables = {
       enable = true;
     };
-    firewall = let
-      nomadDynamicPortRange = { from = 20000; to = 32000; };
-    in
-    {
+    firewall = {
       allowedTCPPorts = [
         80 # HTTP
         443 # HTTPS
-      ];
-      allowedTCPPortRanges = [
-        nomadDynamicPortRange
-      ];
-      allowedUDPPortRanges = [
-        nomadDynamicPortRange
+        8443 # TODO incus
       ];
     };
   };
