@@ -1,11 +1,52 @@
 { config, pkgs, ... }:
 
 {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  disko.devices = {
+    disk = {
+      main = {
+        device = "/dev/vda";
+        type = "disk";
+        content = {
+          type = "gpt";
+          partitions = {
+            ESP = {
+              type = "EF00";
+              size = "1Gi";
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
+              };
+            };
+            root = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+
+  boot = {
+    loader = {
+      systemd-boot = {
+        enable = true;
+      };
+      efi = {
+        canTouchEfiVariables = true;
+      };
+    };
+  };
 
   networking = {
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+    };
     nftables = {
       enable = true;
     };
@@ -27,17 +68,21 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    curl
-    gcc
-    git
-    gnumake
-    neovim
-    tmux
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      curl
+      gcc
+      git
+      gnumake
+      neovim
+      tmux
+    ];
+  };
 
   services = {
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+    };
     yggdrasil = {
       enable = true;
       persistentKeys = true;
@@ -111,7 +156,7 @@
   system = {
     autoUpgrade = {
       enable = true;
-      flake = "github.com/khuedoan/tinycloud/incus";
+      flake = "github:khuedoan/tinycloud/incus";
       allowReboot = true;
     };
 

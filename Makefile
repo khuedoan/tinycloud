@@ -5,13 +5,11 @@ default: test
 
 switch:
 	nixos-rebuild \
-		--impure \
 		--flake '.#' \
 		switch
 
 test:
 	nixos-rebuild \
-		--impure \
 		--flake '.#testvm' \
 		build-vm
 	./result/bin/run-testvm-vm
