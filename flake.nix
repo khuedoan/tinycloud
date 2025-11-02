@@ -1,7 +1,7 @@
 {
   inputs = {
     nixpkgs = {
-      url = "github:nixos/nixpkgs/nixos-24.05";
+      url = "github:nixos/nixpkgs/nixos-25.05";
     };
     disko = {
       url = "github:nix-community/disko";
@@ -21,6 +21,7 @@
       testvm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          disko.nixosModules.disko
           ./configuration.nix
           ./hosts/testvm.nix
         ];

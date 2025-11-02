@@ -89,8 +89,11 @@
       settings = {
         Peers = [
           # https://publicpeers.neilalexander.dev
-          "tcp://sin.yuetau.net:6642"
-          "tcp://mima.localghost.org:1996"
+          "tls://sin.yuetau.net:6643" # Singapore
+          "tls://mima.localghost.org:443" # Philippines
+          "tls://133.18.201.69:54232" # Japan
+          "tls://vpn.itrus.su:7992" # Netherlands
+          "tls://ygg.jjolly.dev:3443" # United States
         ];
       };
     };
@@ -166,6 +169,6 @@
     # this value at the release version of the first install of this system.
     # Before changing this value read the documentation for this option
     # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-    stateVersion = "24.05"; # Did you read the comment?
+    stateVersion = "25.05"; # Did you read the comment?
   };
 }
