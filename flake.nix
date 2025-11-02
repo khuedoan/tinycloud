@@ -11,7 +11,7 @@
 
   outputs = { self, nixpkgs, disko }: {
     nixosConfigurations = {
-      nixos = nixpkgs.lib.nixosSystem {
+      tinycloud = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
@@ -31,6 +31,7 @@
       default = with nixpkgs.legacyPackages.${system}; mkShell {
         packages = [
           incus
+          nixos-anywhere
         ];
       };
     });

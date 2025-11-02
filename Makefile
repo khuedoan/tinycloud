@@ -1,5 +1,5 @@
 .POSIX:
-.PHONY: default switch test update deploy fmt clean
+.PHONY: default switch test update deploy install fmt clean
 
 default: test
 
@@ -17,14 +17,20 @@ test:
 update:
 	nix flake update
 
-# TODO optimize this
 deploy:
-	nomad var put -force @variables/nomad/jobs/traefik/known_hosts.nv.hcl
-	cd jobs/bastion && nomad run -detach bastion.nomad.hcl
-	cd jobs/blog && nomad run -detach blog.nomad.hcl
-	cd jobs/k3s && nomad run -detach k3s.nomad.hcl
-	cd jobs/speedtest && nomad run -detach speedtest.nomad.hcl
-	cd jobs/traefik && nomad run -detach traefik.nomad.hcl
+	# TODO optimize this
+	nixos-rebuild \
+		--flake .#tinycloud \
+		--target-host root@192.168.1.20 \
+		test
+
+install:
+	# TODO migrate to github.com/khuedoan/nixie
+	# Currently can't use PXE boot because the stupid hardware
+	nixos-anywhere \
+		--no-substitute-on-destination \
+		--flake .#tinycloud \
+		--target-host root@192.168.1.20
 
 fmt:
 	nomad fmt -recursive

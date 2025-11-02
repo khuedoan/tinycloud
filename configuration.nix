@@ -4,18 +4,19 @@
   disko.devices = {
     disk = {
       main = {
-        device = "/dev/vda";
         type = "disk";
+        device = "/dev/sda";
         content = {
           type = "gpt";
           partitions = {
             ESP = {
               type = "EF00";
-              size = "1Gi";
+              size = "1G";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
               };
             };
             root = {
@@ -145,6 +146,12 @@
   };
 
   users.users = {
+    root = {
+      # TODO better way to SSH, maybe without SSH key
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5ue4np7cF34f6dwqH1262fPjkowHQ8irfjVC156PCG"
+      ];
+    };
     admin = {
       isNormalUser = true;
       extraGroups = [
@@ -152,6 +159,10 @@
         "wheel"
       ];
       packages = with pkgs; [
+      ];
+      # TODO better way to SSH, maybe without SSH key
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN5ue4np7cF34f6dwqH1262fPjkowHQ8irfjVC156PCG"
       ];
     };
   };
