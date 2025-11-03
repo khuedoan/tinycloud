@@ -84,6 +84,9 @@
     openssh = {
       enable = true;
     };
+    fail2ban = {
+      enable = true;
+    };
     yggdrasil = {
       enable = true;
       persistentKeys = true;
@@ -109,6 +112,7 @@
       preseed = {
         config = {
           "core.https_address" = ":8443";
+          "user.ui.title" = "Tiny Cloud";
         };
         networks = [{
           name = "incusbr0";
